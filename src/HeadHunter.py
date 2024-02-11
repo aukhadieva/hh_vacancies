@@ -1,3 +1,4 @@
+import json
 from abc import ABC, abstractmethod
 
 import requests
@@ -14,7 +15,7 @@ class HeadHunter(ABC):
 class HeadHunterAPI(HeadHunter):
     """Класс, наследующийся от абстрактного класса, для работы с платформой hh.ru."""
 
-    def get_vacancies(self, vacancy_name):  # передается ключевое слово для поиска по вакансиям, н-р "Python"
+    def get_vacancies(self, vacancy_name: str) -> dict:  # передается ключевое слово для поиска по вакансиям, н-р "Python"
         """Метод для подключения к API и получения вакансий."""
         # Получение вакансий с hh.ru в формате JSON
         params = {
@@ -26,10 +27,8 @@ class HeadHunterAPI(HeadHunter):
 
         req = requests.get('https://api.hh.ru/vacancies', params)  # Посылаем запрос к API
         data = req.content.decode()  # Декодируем его ответ, чтобы кириллица отображалась корректно
-        return data
-
-
-if __name__ == '__main__':
-    hh_api = HeadHunterAPI()
-    hh_vacancies = hh_api.get_vacancies("Python")
-    print(hh_vacancies)
+        with open('data_vacancy.json', 'w') as json_file:
+            json_file.write(data)
+            with open('data_vacancy.json') as file:
+                vacancy_data = json.load(file)
+                return vacancy_data
