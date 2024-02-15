@@ -48,7 +48,7 @@ class Vacancy:
 
     @classmethod
     def filter_vacancies(self, vacancies_list, filter_words):
-        """Метод для поиска вакансий по ключевому слову в файле."""
+        """Метод для поиска вакансий по названию вакансии."""
         filtered_vacancies = []
         for item in vacancies_list:
             if filter_words in item.vacancy_name:
@@ -57,7 +57,7 @@ class Vacancy:
 
     @classmethod
     def get_vacancies_by_salary(cls, filtered_vacancies, salary_range):
-        """Метод для поиска вакансий по зарплате в файле."""
+        """Метод для поиска вакансий по зарплате."""
         filtered_by_salary = []
         for item in filtered_vacancies:
             if salary_range == item.salary:
@@ -71,3 +71,9 @@ class Vacancy:
     def get_top_vacancies(self, sorted_vacancies, top_n):
         """Метод для вывода топа вакансий."""
         pass
+
+    @classmethod
+    def print_vacancies(self, top_vacancies):
+        """Выводит отобранную вакансию/ -и пользователю."""
+        for vacancy in top_vacancies:
+            print(vacancy)
