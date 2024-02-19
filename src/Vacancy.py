@@ -6,15 +6,16 @@ class Vacancy:
 
     vacancies_list = []
 
-    def __init__(self, vacancy_name: str, salary: str, currency: str, requirement: str, responsibility: str,
-                 schedule: str, employer: str) -> None:
+    def __init__(self, vacancy_name: str, employer: str, salary: str, currency: str, requirement: str, responsibility: str,
+                 schedule: str) -> None:
         self.vacancy_name = vacancy_name
+        self.employer = employer
         self.salary = salary
         self.currency = currency
         self.requirement = requirement
         self.responsibility = responsibility
         self.schedule = schedule
-        self.employer = employer
+
         Vacancy.vacancies_list.append(self)
 
     @classmethod
@@ -24,6 +25,7 @@ class Vacancy:
             vacancy_data = json.load(json_file)
             for vacancy in vacancy_data['items']:
                 vacancy_name = vacancy['name']
+                employer = vacancy["employer"]["name"]
                 try:
                     if vacancy["salary"]["from"] is None:
                         vacancy["salary"]["from"] = 'Нет данных'
@@ -39,21 +41,20 @@ class Vacancy:
                 requirement = vacancy["snippet"]["requirement"]
                 responsibility = vacancy["snippet"]["responsibility"]
                 schedule = vacancy["schedule"]["name"]
-                employer = vacancy["employer"]["name"]
-                cls(vacancy_name, salary, currency, requirement, responsibility, schedule, employer)
+                cls(vacancy_name, employer, salary, currency, requirement, responsibility, schedule)
 
     def __repr__(self):
         """
         Возвращает текстовое представление объекта полезное для отладки
         в виде названия классов и его атрибутов.
         """
-        return (f'{self.__class__.__name__} ({self.vacancy_name}, {self.employer}, {self.salary},'
+        return (f'{self.__class__.__name__} ({self.vacancy_name}, {self.employer}, {self.salary}, {self.currency}, '
                 f'{self.requirement}, {self.responsibility}, {self.schedule})')
 
     def __str__(self):
         """Возвращает строковое представление объекта."""
         return (f'Вакансия: {self.vacancy_name}\nКомпания: {self.employer}\n'
-                f'Заработная плата: {self.salary}\n'
+                f'Заработная плата: {self.salary} {self.currency}\n'
                 f'Требования: {self.requirement}\nОбязанности: {self.responsibility}\nГрафик: {self.schedule}\n')
 
     @classmethod
