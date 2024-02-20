@@ -3,7 +3,7 @@ import os
 from config import ROOT
 from src.HeadHunter import HeadHunterAPI
 from src.Saver import JSONSaver
-from src.Vacancy import Vacancy
+from src.Vacancy import Vacancy, Vacancies
 
 # Создание экземпляра класса для работы с API сайтов с вакансиями
 hh_api = HeadHunterAPI()
@@ -15,21 +15,36 @@ hh_vacancies = hh_api.get_vacancies(input(f"Введите ключевые сл
 json_saver = JSONSaver()
 json_saver.add_vacancy(hh_vacancies)
 
-# Преобразование набора данных из JSON в список объектов
 vacancy_path = os.path.join(ROOT, 'data', 'vacancy.json')
-Vacancy.cast_to_object_list(vacancy_path)
-vacancies = Vacancy.vacancies_list  # все вакансии в виде списка экземпляров
 
 
 def user_interaction():
     """Функция для взаимодействия с пользователем."""
-    salary_range = input(f"Введите диапазон зарплат или нажмите enter, чтобы увидеть все вакансии: \n")
-    top_n = input(f"Введите количество вакансий для вывода в топ N или нажмите enter, чтобы увидеть все вакансии: \n")
+    vacancies = Vacancies(vacancy_path)
 
-    sorted_vacancies = Vacancy.sort_vacancies(vacancies)
-    filtered_by_salary = Vacancy.get_vacancies_by_salary(sorted_vacancies, salary_range)
-    top_vacancies = Vacancy.get_top_vacancies(filtered_by_salary, top_n)
-    Vacancy.print_vacancies(top_vacancies)
+    loaded_vacancies = vacancies.load_vacancies()
+
+    while True:
+        salary_range = input(f"Введите зарплату или диапазон зарплат или enter, чтобы увидеть все варианты: \n")
+        ranked_by_salary = vacancies.sort_salary(loaded_vacancies, salary_range)
+        if len(ranked_by_salary) == 0:
+            print('Вакансия не найдена. Попробуйте еще раз.')
+            continue
+
+        ranked_by_currency = vacancies.sort_currency(ranked_by_salary)
+        ranked_by_other = vacancies.sort_req_res(ranked_by_currency)
+
+        area = input(f"Введите город (Москва или Санкт-Петербург) или enter, чтобы увидеть все варианты: \n").title()
+        ranked_by_area = vacancies.sort_area(ranked_by_other, area)
+        if len(ranked_by_area) == 0:
+            print('Вакансия не найдена. Попробуйте еще раз.')
+            continue
+
+        Vacancy.cast_to_object_list(ranked_by_area)  # инициализирую
+        vacancies = Vacancy.vacancies_list  # отобранные вакансии в виде списка экземпляров
+
+        Vacancy.print_vacancies(vacancies)  # печатаю отобранные вакансии
+        break
 
 
 if __name__ == "__main__":
