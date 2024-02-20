@@ -1,9 +1,6 @@
-import json
 from abc import ABC, abstractmethod
 
 import requests
-
-from src.Saver import JSONSaver
 
 
 class HeadHunter(ABC):
