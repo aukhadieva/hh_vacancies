@@ -49,4 +49,5 @@
    ```
 
 Из папки coverage_report запустите файл index.html, в открывшемся окне выберите модуль, покрытие которого хотите проверить
+
 <img width="583" alt="Снимок экрана 2024-02-20 в 14 03 58" src="https://github.com/aukhadieva/hh_vacancies/assets/154250765/e52bf984-a452-4347-8048-bf69bc083721">
