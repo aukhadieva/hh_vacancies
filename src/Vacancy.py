@@ -1,24 +1,43 @@
-import json
-
-
-class Vacancies:
+class Vacancy:
     """Класс для вакансий."""
 
-    def __init__(self, hh_vacancies) -> None:
-        self.__hh_vacancies = hh_vacancies
+    vacancies_list = []
 
-    @property
-    def hh_vacancies(self) -> str:
-        """Геттер для приватного атрибута __hh_vacancies."""
-        return self.__hh_vacancies
+    def __init__(self, vacancy_name: str, area: str, employer: str, salary: str, currency: str,
+                 requirement: str, responsibility: str, schedule: str):
+        self.vacancy_name = vacancy_name
+        self.area = area
+        self.employer = employer
+        self.salary = salary
+        self.currency = currency
+        self.requirement = requirement
+        self.responsibility = responsibility
+        self.schedule = schedule
 
-    def load_vacancies(self) -> dict:
-        """Загружает вакансии из json-словаря. Возвращает словарь."""
-        with open(self.hh_vacancies) as json_file:
-            loaded_vacancies = json.load(json_file)
-            return loaded_vacancies
+        Vacancy.vacancies_list.append(self)
 
-    def sort_salary(self, loaded_vacancies, salary_range) -> list:
+    @classmethod
+    def cast_to_object_list(cls, vacancies) -> None:
+        """Преобразует набор данных из отфильтрованного списка в список объектов."""
+        for vacancy in vacancies:
+            vacancy_name = vacancy['name']
+            area = vacancy['area']['name']
+            employer = vacancy["employer"]["name"]
+            try:
+                salary = f'{vacancy["salary"]["from"]}-{vacancy["salary"]["to"]}'
+            except TypeError:
+                salary = vacancy["salary"]
+            try:
+                currency = vacancy["salary"]["currency"]
+            except TypeError:
+                currency = 'Валюта не указана'
+            requirement = vacancy["snippet"]["requirement"]
+            responsibility = vacancy["snippet"]["responsibility"]
+            schedule = vacancy["schedule"]["name"]
+            cls(vacancy_name, area, employer, salary, currency, requirement, responsibility, schedule)
+
+    @staticmethod
+    def sort_salary(loaded_vacancies, salary_range) -> list:
         """Сравнивает вакансии из json-словаря по зарплате. Возвращает отфильтрованный список."""
         ranked_by_salary = []
         for item in loaded_vacancies['items']:
@@ -75,7 +94,8 @@ class Vacancies:
             ranked_by_other.append(item)
         return ranked_by_other
 
-    def sort_area(self, ranked_by_other, area) -> list:
+    @staticmethod
+    def sort_area(ranked_by_other, area) -> list:
         """Сравнивает вакансии по городу. Возвращает отфильтрованный список."""
         ranked_by_area = []
         for item in ranked_by_other:
@@ -84,45 +104,6 @@ class Vacancies:
             elif area == '':
                 ranked_by_area.append(item)
         return ranked_by_area
-
-
-class Vacancy:
-    """Класс для вакансии."""
-
-    vacancies_list = []
-
-    def __init__(self, vacancy_name: str, area: str, employer: str, salary: str, currency: str,
-                 requirement: str, responsibility: str, schedule: str):
-        self.vacancy_name = vacancy_name
-        self.area = area
-        self.employer = employer
-        self.salary = salary
-        self.currency = currency
-        self.requirement = requirement
-        self.responsibility = responsibility
-        self.schedule = schedule
-
-        Vacancy.vacancies_list.append(self)
-
-    @classmethod
-    def cast_to_object_list(cls, vacancies) -> None:
-        """Преобразует набор данных из отфильтрованного списка в список объектов."""
-        for vacancy in vacancies:
-            vacancy_name = vacancy['name']
-            area = vacancy['area']['name']
-            employer = vacancy["employer"]["name"]
-            try:
-                salary = f'{vacancy["salary"]["from"]}-{vacancy["salary"]["to"]}'
-            except TypeError:
-                salary = vacancy["salary"]
-            try:
-                currency = vacancy["salary"]["currency"]
-            except TypeError:
-                currency = 'Валюта не указана'
-            requirement = vacancy["snippet"]["requirement"]
-            responsibility = vacancy["snippet"]["responsibility"]
-            schedule = vacancy["schedule"]["name"]
-            cls(vacancy_name, area, employer, salary, currency, requirement, responsibility, schedule)
 
     def __str__(self) -> str:
         """Возвращает строковое представление объекта."""
