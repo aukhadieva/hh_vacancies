@@ -1,6 +1,10 @@
+import os
+
+from config import ROOT
 from src.Saver import JSONSaver
 
-json_saver = JSONSaver()
+vacancy_path = os.path.join(ROOT, 'data', 'vacancy.json')
+json_saver = JSONSaver(vacancy_path)
 
 
 def test_add_vacancy():
@@ -8,4 +12,4 @@ def test_add_vacancy():
 
 
 def test_delete_vacancy():
-    assert json_saver.delete_vacancy('93361633') is None
+    assert json_saver.delete_vacancy(vacancy_path) is None
