@@ -1,8 +1,5 @@
 import json
-import os
 from abc import ABC, abstractmethod
-
-from config import ROOT
 
 
 class Saver(ABC):
@@ -35,7 +32,7 @@ class JSONSaver(Saver):
             json.dump(vacancy, json_file, indent=4, ensure_ascii=False)
 
     def delete_vacancy(self, vacancy):
-        """Метод для удаления информации о вакансиях по id вакансии."""
+        """Метод для удаления информации о вакансиях из файла."""
         with open(self.file_path) as json_file:
             data = json.load(json_file)
             data.clear()
@@ -43,7 +40,7 @@ class JSONSaver(Saver):
                 json.dump(data, file)
 
     def get_vacancy(self, vacancy):
-        """Метод для получения данных из файла по указанным критериям."""
+        """Метод для получения данных из файла."""
         with open(self.file_path) as json_file:
             loaded_vacancies = json.load(json_file)
             return loaded_vacancies
