@@ -12,10 +12,9 @@ hh_api = HeadHunterAPI()
 hh_vacancies = hh_api.get_vacancies(input(f"Введите ключевые слова для фильтрации вакансий: \n"))
 
 # Сохранение информации о вакансиях в файл
-json_saver = JSONSaver()
-json_saver.add_vacancy(hh_vacancies)
-
 vacancy_path = os.path.join(ROOT, 'data', 'vacancy.json')
+json_saver = JSONSaver(vacancy_path)
+json_saver.add_vacancy(hh_vacancies)
 
 
 def user_interaction():
