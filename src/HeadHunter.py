@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 import requests
 
 
-class HeadHunter(ABC):
+class Job_Portal(ABC):
     """Абстрактный класс для работы с API сервиса с вакансиями."""
 
     @abstractmethod
@@ -11,7 +11,7 @@ class HeadHunter(ABC):
         pass
 
 
-class HeadHunterAPI(HeadHunter):
+class HeadHunterAPI(Job_Portal):
     """Класс, наследующийся от абстрактного класса, для работы с платформой hh.ru."""
 
     def get_vacancies(self, key_word: str) -> dict:
