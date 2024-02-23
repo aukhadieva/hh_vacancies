@@ -8,6 +8,7 @@ from src.Vacancy import Vacancy
 
 def user_interaction() -> None:
     """Функция для взаимодействия с пользователем."""
+    global ranked_by_other
     hh_api = HeadHunterAPI()  # Создание экземпляра класса для работы с API сайтов с вакансиями
     hh_vacancies = hh_api.get_vacancies(input(f"Введите ключевые слова для фильтрации вакансий: \n"))
 
@@ -26,7 +27,9 @@ def user_interaction() -> None:
 
         ranked_by_currency = Vacancy.sort_currency(ranked_by_salary)
         ranked_by_other = Vacancy.sort_req_res(ranked_by_currency)
+        break
 
+    while True:
         area = input(f"Введите город (Москва или Санкт-Петербург) или enter, чтобы увидеть все варианты: \n").title()
         ranked_by_area = Vacancy.sort_area(ranked_by_other, area)
         if len(ranked_by_area) == 0:
