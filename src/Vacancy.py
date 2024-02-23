@@ -17,7 +17,7 @@ class Vacancy:
         Vacancy.vacancies_list.append(self)
 
     @classmethod
-    def cast_to_object_list(cls, vacancies) -> None:
+    def cast_to_object_list(cls, vacancies: list) -> None:
         """Преобразует набор данных из отфильтрованного списка в список объектов."""
         for vacancy in vacancies:
             vacancy_name = vacancy['name']
@@ -37,7 +37,7 @@ class Vacancy:
             cls(vacancy_name, area, employer, salary, currency, requirement, responsibility, schedule)
 
     @staticmethod
-    def sort_salary(loaded_vacancies, salary_range) -> list:
+    def sort_salary(loaded_vacancies: dict, salary_range: str) -> list:
         """Сравнивает вакансии из json-словаря по зарплате. Возвращает отфильтрованный список."""
         ranked_by_salary = []
         for item in loaded_vacancies['items']:
@@ -58,7 +58,7 @@ class Vacancy:
         return ranked_by_salary
 
     @staticmethod
-    def sort_currency(ranked_by_salary) -> list:
+    def sort_currency(ranked_by_salary: list) -> list:
         """Сортирует вакансии по валюте. Возвращает отсортированный список."""
         ranked_by_currency = []
         for item in ranked_by_salary:
@@ -73,7 +73,7 @@ class Vacancy:
         return ranked_by_currency
 
     @staticmethod
-    def sort_req_res(ranked_by_currency) -> list:
+    def sort_req_res(ranked_by_currency: list) -> list:
         """Сортирует вакансии по требованиям и обязанностям. Возвращает отсортированный список."""
         ranked_by_other = []
         for item in ranked_by_currency:
@@ -95,7 +95,7 @@ class Vacancy:
         return ranked_by_other
 
     @staticmethod
-    def sort_area(ranked_by_other, area) -> list:
+    def sort_area(ranked_by_other: list, area: str) -> list:
         """Сравнивает вакансии по городу. Возвращает отфильтрованный список."""
         ranked_by_area = []
         for item in ranked_by_other:
@@ -112,7 +112,7 @@ class Vacancy:
                 f'Требования: {self.requirement}\nОбязанности: {self.responsibility}\nГрафик: {self.schedule}\n')
 
     @classmethod
-    def print_vacancies(cls, vacancies_list) -> None:
+    def print_vacancies(cls, vacancies_list: list) -> None:
         """Выводит отобранные вакансии пользователю."""
         for vacancy in vacancies_list:
             print(vacancy)

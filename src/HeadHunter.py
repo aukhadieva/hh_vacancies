@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 import requests
 
 
-class HeadHunter(ABC):
+class Job_Portal(ABC):
     """Абстрактный класс для работы с API сервиса с вакансиями."""
 
     @abstractmethod
@@ -11,7 +11,7 @@ class HeadHunter(ABC):
         pass
 
 
-class HeadHunterAPI(HeadHunter):
+class HeadHunterAPI(Job_Portal):
     """Класс, наследующийся от абстрактного класса, для работы с платформой hh.ru."""
 
     def get_vacancies(self, key_word: str) -> dict:
@@ -20,12 +20,12 @@ class HeadHunterAPI(HeadHunter):
         Получает вакансии с hh.ru в формате JSON.
         """
         params = {
-            'text': f'{key_word}',  # Переданное знач-е ищется в полях в-сии, ук-х в пар-ре search_field(Область поиска)
-            'area': (1, 2),  # Поиск осуществляется по вакансиям города по номеру
-            'page': 0,  # Номер страницы (установлено дефолтное значение)
-            'per_page': 100  # Количество элементов на 1 странице
+            'text': f'{key_word}',
+            'area': (1, 2),
+            'page': 0,
+            'per_page': 100
         }
 
-        request = requests.get('https://api.hh.ru/vacancies', params)  # Посылаем запрос к API
+        request = requests.get('https://api.hh.ru/vacancies', params)
         data = request.json()
         return data

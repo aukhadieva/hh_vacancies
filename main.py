@@ -6,7 +6,7 @@ from src.Saver import JSONSaver
 from src.Vacancy import Vacancy
 
 
-def user_interaction():
+def user_interaction() -> None:
     """Функция для взаимодействия с пользователем."""
     hh_api = HeadHunterAPI()  # Создание экземпляра класса для работы с API сайтов с вакансиями
     hh_vacancies = hh_api.get_vacancies(input(f"Введите ключевые слова для фильтрации вакансий: \n"))
