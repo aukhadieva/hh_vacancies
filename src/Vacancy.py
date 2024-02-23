@@ -79,15 +79,16 @@ class Vacancy:
         for item in ranked_by_currency:
             try:
                 item["snippet"]["requirement"] = item["snippet"]["requirement"].replace(
-                    '<highlighttext>Python</highlighttext>',
-                    'Python')
+                    '<highlighttext>', '')
+                item["snippet"]["requirement"] = item["snippet"]["requirement"].replace(
+                    '</highlighttext>', '')
             except AttributeError:
                 if item["snippet"]["requirement"] is None:
                     item["snippet"]["requirement"] = 'Информация не указана'
             try:
                 item["snippet"]["responsibility"] = item["snippet"]["responsibility"].replace(
-                    '<highlighttext>Python</highlighttext>',
-                    'Python')
+                    '<highlighttext>',
+                    '')
             except AttributeError:
                 if item["snippet"]["responsibility"] is None:
                     item["snippet"]["responsibility"] = 'Информация не указана'
