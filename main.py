@@ -30,7 +30,7 @@ def user_interaction() -> None:
         break
 
     while True:
-        area = input(f"Введите город (Москва или Санкт-Петербург) или enter, чтобы увидеть все варианты: \n").title()
+        area = input(f"Введите город или enter, чтобы увидеть все варианты: \n").title()
         ranked_by_area = Vacancy.sort_area(ranked_by_other, area)
         if len(ranked_by_area) == 0:
             print('Вакансия не найдена. Попробуйте еще раз.')

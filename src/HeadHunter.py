@@ -21,7 +21,7 @@ class HeadHunterAPI(Job_Portal):
         """
         params = {
             'text': f'{key_word}',
-            'area': (1, 2),
+            'area': 113,  # Россия
             'page': 0,
             'per_page': 100
         }
