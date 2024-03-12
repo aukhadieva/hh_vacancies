@@ -1,6 +1,4 @@
-import os
-
-from config import ROOT
+from config import vacancy_path
 from src.HeadHunter import HeadHunterAPI
 from src.Saver import JSONSaver
 from src.Vacancy import Vacancy
@@ -9,10 +7,10 @@ from src.Vacancy import Vacancy
 def user_interaction() -> None:
     """Функция для взаимодействия с пользователем."""
     global ranked_by_other
+
     hh_api = HeadHunterAPI()  # Создание экземпляра класса для работы с API сайтов с вакансиями
     hh_vacancies = hh_api.get_vacancies(input(f"Введите ключевые слова для фильтрации вакансий: \n"))
 
-    vacancy_path = os.path.join(ROOT, 'data', 'vacancy.json')
     json_saver = JSONSaver(vacancy_path)
     json_saver.add_vacancy(hh_vacancies)  # Сохранение информации о вакансиях в файл
 
