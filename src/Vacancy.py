@@ -106,6 +106,15 @@ class Vacancy:
                 ranked_by_area.append(item)
         return ranked_by_area
 
+    @classmethod
+    def get_top_vacancies(cls, ranked_by_area: list, top_n: str) -> list:
+        """Метод для вывода топа вакансий."""
+        try:
+            return ranked_by_area[:int(top_n)]
+        except ValueError:
+            if top_n == '':
+                return ranked_by_area
+
     def __str__(self) -> str:
         """Возвращает строковое представление объекта."""
         return (f'Вакансия: {self.vacancy_name}\nГород: {self.area}\nКомпания: {self.employer}\n'

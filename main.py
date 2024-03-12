@@ -36,7 +36,11 @@ def user_interaction() -> None:
             print('Вакансия не найдена. Попробуйте еще раз.')
             continue
 
-        Vacancy.cast_to_object_list(ranked_by_area)  # инициализирую
+        top_range = input(f"Введите число вакансий, которые хотите просмотреть или enter, "
+                             f"чтобы увидеть все варианты: \n")
+        ranked_by_top = Vacancy.get_top_vacancies(ranked_by_area, top_range)
+
+        Vacancy.cast_to_object_list(ranked_by_top)  # инициализирую
         vacancies = Vacancy.vacancies_list  # отобранные вакансии в виде списка экземпляров
 
         Vacancy.print_vacancies(vacancies)  # печатаю отобранные вакансии
